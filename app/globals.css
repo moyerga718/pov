@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* TODO: Get light mode / dark mode working
+ */
+
+.dark {
+  --background: 37, 38, 39;
+  --border: 255, 255, 245;
+  --foreground: 255, 255, 245;
+  --text: 255, 255, 245;
+}
+
+.light {
+  --background: 255, 255, 245;
+  --border: 37, 38, 39;
+  --foreground: 37, 38, 39;
+  --text: 37, 38, 39;
+}
