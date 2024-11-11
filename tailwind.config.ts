@@ -13,6 +13,9 @@ export default {
         border: "var(--border)",
         text: "var(--text)",
       },
+      fontFamily: {
+        CutiveMono: ["Cutive Mono", "monospace"],
+      },
     },
   },
   plugins: [],
