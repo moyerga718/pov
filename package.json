@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest"
+    "test": "jest",
+    "create-migration": "ts-node ./utils/db/migrations/"
   },
   "dependencies": {
     "kysely": "^0.27.4",
@@ -18,7 +19,7 @@
   },
   "devDependencies": {
     "@types/jest": "^29.5.14",
-    "@types/node": "^20",
+    "@types/node": "^20.17.6",
     "@types/pg": "^8.11.10",
     "@types/react": "^18",
     "@types/react-dom": "^18",
