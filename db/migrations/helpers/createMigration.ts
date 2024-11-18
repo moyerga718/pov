@@ -1,7 +1,7 @@
 import fs from "fs";
 
-function CreateMigrationFile() {
-  const migrationName = `${new Date().toISOString()}.ts`;
+function createMigrationFile() {
+  const migrationName = `${Math.floor(Date.now() / 1000)}.ts`;
 
   // Hate suppressing typescript, but I can't import the needed type for that err variable... it needs ErrnoException | null.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -14,10 +14,10 @@ function CreateMigrationFile() {
   }
 
   fs.copyFile(
-    "./utils/db/migrations/helpers/sampleMigration.ts",
-    `./utils/db/migrations/${migrationName}`,
+    "./db/migrations/helpers/sampleMigration.ts",
+    `./db/migrations/${migrationName}`,
     copyStatusMessageCallback
   );
 }
 
-CreateMigrationFile();
+createMigrationFile();

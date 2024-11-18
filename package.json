@@ -8,9 +8,11 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
-    "create-migration": "ts-node ./utils/db/migrations/"
+    "create-migration": "bun run ./db/migrations/helpers/createMigration.ts",
+    "migrate-up": "bun run ./db/migrations/helpers/runMigrations.ts"
   },
   "dependencies": {
+    "@faker-js/faker": "^9.2.0",
     "kysely": "^0.27.4",
     "next": "^15.0.3",
     "pg": "^8.13.1",

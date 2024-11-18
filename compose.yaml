@@ -7,9 +7,6 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=development
-    # volumes:
-    #   - ./APP:/app/APP
-    #   - ./COMPONENTS:/app/COMPONENTS
     develop:
       watch:
         - action: sync
