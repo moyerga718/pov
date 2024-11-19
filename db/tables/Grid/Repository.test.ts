@@ -6,9 +6,14 @@ import { User } from "../User/Table";
 import { Grid } from "./Table";
 
 describe("GridRepository", () => {
-  const testContext: { user: User | undefined; grid: Grid | undefined } = {
+  const testContext: {
+    user: User | undefined;
+    grid: Grid | undefined;
+    numberOfGrids: number;
+  } = {
     user: undefined,
     grid: undefined,
+    numberOfGrids: Math.floor(Math.random() * 10) + 1,
   };
   const testUserInput = createRandomUser();
 
@@ -26,11 +31,25 @@ describe("GridRepository", () => {
     const testGridInput = createRandomGrid(testContext.user.id);
     const testGrid = await GridRepository.createGrid(testGridInput);
     expect(testGrid).toBeDefined();
+    testContext.grid = testGrid;
   });
 
-  test.todo("should find grid by title");
+  it("should find grid by title", async () => {
+    expect(testContext.grid).toBeDefined();
+    if (!testContext.grid) {
+      return;
+    }
+    const foundGrid = await GridRepository.findGrids(testContext.grid);
+    expect(foundGrid[0]).toEqual(testContext.grid);
+  });
 
-  test.todo("should find all grids for a user");
+  it("should find all grids for a user", () => {
+    expect(testContext.grid).toBeDefined();
+    expect(testContext.user).toBeDefined();
+    if (!testContext.grid || !testContext.user) {
+      return;
+    }
+  });
 
   test.todo("should update grid title");
 
@@ -39,4 +58,6 @@ describe("GridRepository", () => {
   test.todo("should increment grid point count");
 
   test.todo("should delete grid");
+
+  test.todo("should delete user");
 });

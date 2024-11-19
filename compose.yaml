@@ -23,9 +23,14 @@ services:
           path: package.json
   db:
     image: postgres:15-alpine
+    volumes:
+      - db-data:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: pov_local_db
       POSTGRES_USER: dev_user
       POSTGRES_PASSWORD: dev_pass
     ports:
       - "5432:5432"
+
+volumes:
+  db-data:

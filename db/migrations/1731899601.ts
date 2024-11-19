@@ -15,7 +15,10 @@ export async function up(db: Kysely<any>): Promise<void> {
     .addColumn("east_label", "varchar", (col) => col.notNull())
     .addColumn("south_label", "varchar", (col) => col.notNull())
     .addColumn("west_label", "varchar", (col) => col.notNull())
-    .addColumn("grid_point_count", "integer", (col) => col.notNull())
+    .addColumn("grid_point_count", "integer", (col) =>
+      col.defaultTo(0).notNull()
+    )
+    .addColumn("comment_count", "integer", (col) => col.defaultTo(0).notNull())
     .addColumn("created_by_user_id", "integer", (col) => col.notNull())
     .addColumn("created_at", "timestamp", (col) =>
       col.defaultTo(sql`now()`).notNull()
@@ -23,14 +26,18 @@ export async function up(db: Kysely<any>): Promise<void> {
     .execute();
 
   await db.schema
-    .createIndex("created_by_user_grid_index")
-    .on("grid")
-    .column("created_by_user_id")
+    .alterTable("grid")
+    .addForeignKeyConstraint(
+      "grid_created_by_user_id_constraint",
+      ["created_by_user_id"],
+      "user",
+      ["id"]
+    )
     .execute();
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function down(db: Kysely<any>): Promise<void> {
-  await db.schema.dropIndex("created_by_user_grid_index");
+  await db.schema.dropIndex("grid_created_by_user_id_constraint");
   await db.schema.dropTable("grid").execute();
 }
