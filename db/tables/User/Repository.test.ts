@@ -1,5 +1,3 @@
-import { sql } from "kysely";
-import { db } from "../../dbConnection";
 import * as UserRepository from "./Repository";
 import { NewUser, User } from "./Table";
 import { createRandomUser } from "./Factory";
@@ -8,10 +6,6 @@ describe("UserRepository", () => {
   const testContext: User[] = [];
   const testUserInput: NewUser = createRandomUser();
   console.log(testUserInput);
-
-  afterAll(async () => {
-    await sql`truncate table ${sql.table("user")}`.execute(db);
-  });
 
   it("should create a user", async () => {
     const testUser = await UserRepository.createUser(testUserInput);
@@ -30,7 +24,7 @@ describe("UserRepository", () => {
     expect(foundUser).toEqual(testUser);
   });
 
-  it("should find all people named Bitch", async () => {
+  it("should find all people users by first name", async () => {
     const testUser = testContext;
     expect(testUser).toBeDefined();
     const foundUsers = await UserRepository.findUsers({

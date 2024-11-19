@@ -9,7 +9,8 @@
     "lint": "next lint",
     "test": "jest",
     "create-migration": "bun run ./db/migrations/helpers/createMigration.ts",
-    "migrate-up": "bun run ./db/migrations/helpers/runMigrations.ts"
+    "migrate-up": "bun run ./db/migrations/helpers/migrateUp.ts",
+    "migrate-down": "bun run ./db/migrations/helpers/migrateDown.ts"
   },
   "dependencies": {
     "@faker-js/faker": "^9.2.0",

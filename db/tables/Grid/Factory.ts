@@ -12,3 +12,14 @@ export function createRandomGrid(createdByUserId: number): NewGrid {
     created_by_user_id: createdByUserId,
   } as NewGrid;
 }
+
+export function createRandomGrids(
+  createdByUserId: number,
+  numberOfGrids: number
+): NewGrid[] {
+  const grids: NewGrid[] = [];
+  for (let i = 0; i < numberOfGrids; i++) {
+    grids.push(createRandomGrid(createdByUserId));
+  }
+  return grids;
+}
