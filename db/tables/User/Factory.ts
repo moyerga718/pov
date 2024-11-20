@@ -7,8 +7,8 @@ export function createRandomUser(): NewUser {
   const username = faker.internet.username({ firstName, lastName });
 
   return {
-    first_name: firstName,
-    last_name: lastName,
+    firstName: firstName,
+    lastName: lastName,
     username,
   } as NewUser;
 }

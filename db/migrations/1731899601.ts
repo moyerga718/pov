@@ -23,6 +23,7 @@ export async function up(db: Kysely<any>): Promise<void> {
     .addColumn("created_at", "timestamp", (col) =>
       col.defaultTo(sql`now()`).notNull()
     )
+    .addColumn("updated_at", "timestamp", (col) => col.defaultTo(null))
     .execute();
 
   await db.schema
@@ -38,6 +39,5 @@ export async function up(db: Kysely<any>): Promise<void> {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function down(db: Kysely<any>): Promise<void> {
-  await db.schema.dropIndex("grid_created_by_user_id_constraint");
   await db.schema.dropTable("grid").execute();
 }

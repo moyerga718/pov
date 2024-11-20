@@ -28,24 +28,24 @@ export async function findUsers(criteria: Partial<User>) {
     query = query.where("id", "=", criteria.id);
   }
 
-  if (criteria.first_name) {
-    query = query.where("first_name", "=", criteria.first_name);
+  if (criteria.firstName) {
+    query = query.where("firstName", "=", criteria.firstName);
   }
 
-  if (criteria.last_name !== undefined) {
+  if (criteria.lastName !== undefined) {
     query = query.where(
-      "last_name",
-      criteria.last_name === null ? "is" : "=",
-      criteria.last_name
+      "lastName",
+      criteria.lastName === null ? "is" : "=",
+      criteria.lastName
     );
   }
 
-  if (criteria.created_at) {
-    query = query.where("created_at", "=", criteria.created_at);
+  if (criteria.createdAt) {
+    query = query.where("createdAt", "=", criteria.createdAt);
   }
 
-  if (criteria.updated_at) {
-    query = query.where("updated_at", "=", criteria.updated_at);
+  if (criteria.updatedAt) {
+    query = query.where("updatedAt", "=", criteria.updatedAt);
   }
 
   return await query.selectAll().execute();

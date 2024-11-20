@@ -13,15 +13,15 @@ import {
  */
 export interface GridPointTable {
   id: Generated<number>;
-  grid_id: number;
-  user_id: number;
+  gridId: number;
+  userId: number;
   // x and y values determine where this point falls on the grids axes.
   // both of these should range from -100 to 100.
-  x_value: number;
-  y_value: number;
-  comment_id: number | null;
-  created_at: ColumnType<Date, string | undefined, never>;
-  updated_at: ColumnType<Date, never, string | undefined>;
+  xValue: number;
+  yValue: number;
+  commentId: number | null;
+  createdAt: ColumnType<Date, string | undefined, never>;
+  updatedAt: ColumnType<Date, never, string | undefined>;
 }
 
 export type GridPoint = Selectable<GridPointTable>;

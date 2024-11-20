@@ -4,12 +4,13 @@ import { NewGrid } from "./Table";
 export function createRandomGrid(createdByUserId: number): NewGrid {
   return {
     title: faker.book.title(),
-    north_label: faker.music.genre(),
-    east_label: faker.animal.cat(),
-    south_label: faker.music.genre(),
-    west_label: faker.animal.cat(),
-    comment_count: 0,
-    created_by_user_id: createdByUserId,
+    northLabel: faker.music.genre(),
+    eastLabel: faker.animal.cat(),
+    southLabel: faker.music.genre(),
+    westLabel: faker.animal.cat(),
+    commentCount: 0,
+    gridPointCount: 0,
+    createdByUserId: createdByUserId,
   } as NewGrid;
 }
 
