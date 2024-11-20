@@ -5,17 +5,20 @@ import { createRandomUser } from "./Factory";
 describe("UserRepository", () => {
   const testContext: User[] = [];
   const testUserInput: NewUser = createRandomUser();
-  console.log(testUserInput);
+
+  /** CREATE */
 
   it("should create a user", async () => {
     const testUser = await UserRepository.createUser(testUserInput);
-    expect(testUser.first_name).toEqual(testUserInput.first_name);
-    expect(testUser.last_name).toEqual(testUserInput.last_name);
+    expect(testUser.firstName).toEqual(testUserInput.firstName);
+    expect(testUser.lastName).toEqual(testUserInput.lastName);
     expect(testUser.username).toEqual(testUserInput.username);
-    expect(testUser.created_at).toBeDefined();
-    expect(testUser.updated_at).toBeNull();
+    expect(testUser.createdAt).toBeDefined();
+    expect(testUser.updatedAt).toBeNull();
     testContext.push(testUser);
   });
+
+  /** READ */
 
   it("should find a user with a given id", async () => {
     const testUser = testContext[0];
@@ -28,10 +31,16 @@ describe("UserRepository", () => {
     const testUser = testContext;
     expect(testUser).toBeDefined();
     const foundUsers = await UserRepository.findUsers({
-      first_name: testUserInput.first_name,
+      firstName: testUserInput.firstName,
     });
     expect(foundUsers).toEqual(testUser);
   });
+
+  /** UPDATE */
+
+  test.todo("it should update the user....");
+
+  /** DELETE */
 
   it("should delete a User with a given id", async () => {
     const testUser = testContext[0];

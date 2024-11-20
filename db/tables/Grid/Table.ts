@@ -14,15 +14,15 @@ import {
 export interface GridTable {
   id: Generated<number>;
   title: string;
-  north_label: string;
-  east_label: string;
-  south_label: string;
-  west_label: string;
-  grid_point_count: ColumnType<number, never, number>;
-  comment_count: ColumnType<number, never, number>;
-  created_by_user_id: number;
-  created_at: ColumnType<Date, string | undefined, never>;
-  updated_at: ColumnType<Date, never, string | undefined>;
+  northLabel: string;
+  eastLabel: string;
+  southLabel: string;
+  westLabel: string;
+  gridPointCount: ColumnType<number, never, number>;
+  commentCount: ColumnType<number, never, number>;
+  createdByUserId: number;
+  createdAt: ColumnType<Date, string | undefined, never>;
+  updatedAt: ColumnType<Date, never, string | undefined>;
 }
 
 export type Grid = Selectable<GridTable>;

@@ -14,10 +14,10 @@ import {
 export interface UserTable {
   id: Generated<number>;
   username: string;
-  first_name: string;
-  last_name: string | null;
-  created_at: ColumnType<Date, string | undefined, never>;
-  updated_at: ColumnType<Date, never, string | undefined>;
+  firstName: string;
+  lastName: string | null;
+  createdAt: ColumnType<Date, string | undefined, never>;
+  updatedAt: ColumnType<Date, never, string | undefined>;
 }
 
 export type User = Selectable<UserTable>;

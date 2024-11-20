@@ -1,4 +1,3 @@
-import { expressionBuilder } from "kysely";
 import { db } from "../../dbConnection";
 import { Grid, GridUpdate, NewGrid } from "./Table";
 
@@ -33,20 +32,20 @@ export async function findGrids(criteria: Partial<Grid>) {
     query = query.where("title", "ilike", `%${criteria.title}%`);
   }
 
-  if (criteria.north_label) {
-    query = query.where("title", "ilike", `%${criteria.north_label}%`);
+  if (criteria.northLabel) {
+    query = query.where("title", "ilike", `%${criteria.northLabel}%`);
   }
 
-  if (criteria.east_label) {
-    query = query.where("title", "ilike", `%${criteria.east_label}%`);
+  if (criteria.eastLabel) {
+    query = query.where("title", "ilike", `%${criteria.eastLabel}%`);
   }
 
-  if (criteria.south_label) {
-    query = query.where("title", "ilike", `%${criteria.south_label}%`);
+  if (criteria.southLabel) {
+    query = query.where("title", "ilike", `%${criteria.southLabel}%`);
   }
 
-  if (criteria.west_label) {
-    query = query.where("title", "ilike", `%${criteria.west_label}%`);
+  if (criteria.westLabel) {
+    query = query.where("title", "ilike", `%${criteria.westLabel}%`);
   }
 
   return await query.selectAll().execute();
@@ -55,7 +54,7 @@ export async function findGrids(criteria: Partial<Grid>) {
 export async function findAllGridsForUser(userId: number) {
   return await db
     .selectFrom("grid")
-    .where("created_by_user_id", "=", userId)
+    .where("createdByUserId", "=", userId)
     .selectAll()
     .execute();
 }
@@ -70,7 +69,17 @@ export async function incrementGridPointCount(id: number) {
   return await db
     .updateTable("grid")
     .set((eb) => ({
-      grid_point_count: eb("grid_point_count", "+", 1),
+      gridPointCount: eb("gridPointCount", "+", 1),
+    }))
+    .where("id", "=", id)
+    .execute();
+}
+
+export async function decrementGridPointCount(id: number) {
+  return await db
+    .updateTable("grid")
+    .set((eb) => ({
+      gridPointCount: eb("gridPointCount", "-", 1),
     }))
     .where("id", "=", id)
     .execute();
@@ -80,7 +89,17 @@ export async function incrementGridCommentCount(id: number) {
   return await db
     .updateTable("grid")
     .set((eb) => ({
-      comment_count: eb("comment_count", "+", 1),
+      commentCount: eb("commentCount", "+", 1),
+    }))
+    .where("id", "=", id)
+    .execute();
+}
+
+export async function decrementGridCommentCount(id: number) {
+  return await db
+    .updateTable("grid")
+    .set((eb) => ({
+      commentCount: eb("commentCount", "-", 1),
     }))
     .where("id", "=", id)
     .execute();
