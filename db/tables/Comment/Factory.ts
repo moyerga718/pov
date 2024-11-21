@@ -15,7 +15,7 @@ function createRandomComment(
     commentCount: 0,
     parentCommentId,
     topLevelCommentId,
-  } as NewComment;
+  };
 }
 
 export function createRandomComments(
