@@ -1,10 +1,16 @@
+import { Transaction } from "kysely";
 import { db } from "../../dbConnection";
 import { VoteType } from "./Constants/VoteType";
+import { Database } from "../Database";
 
 /** CREATE */
 
-export async function createUpvote(userId: number, commentId: number) {
-  return await db
+export async function createUpvote(
+  userId: number,
+  commentId: number,
+  trx: Transaction<Database>
+) {
+  return await (trx ? trx : db)
     .insertInto("vote")
     .values({
       userId: userId,
@@ -15,8 +21,12 @@ export async function createUpvote(userId: number, commentId: number) {
     .executeTakeFirstOrThrow();
 }
 
-export async function createDownvote(userId: number, commentId: number) {
-  return await db
+export async function createDownvote(
+  userId: number,
+  commentId: number,
+  trx: Transaction<Database>
+) {
+  return await (trx ? trx : db)
     .insertInto("vote")
     .values({
       userId: userId,
@@ -29,8 +39,8 @@ export async function createDownvote(userId: number, commentId: number) {
 
 /** READ  */
 
-export async function findVoteById(id: number) {
-  return await db
+export async function findVoteById(id: number, trx: Transaction<Database>) {
+  return await (trx ? trx : db)
     .selectFrom("vote")
     .where("id", "=", id)
     .selectAll()
@@ -39,9 +49,10 @@ export async function findVoteById(id: number) {
 
 export async function findVoteByCommentAndUserId(
   commentId: number,
-  userId: number
+  userId: number,
+  trx: Transaction<Database>
 ) {
-  return await db
+  return await (trx ? trx : db)
     .selectFrom("vote")
     .where("commentId", "=", commentId)
     .where("userId", "=", userId)
@@ -51,8 +62,12 @@ export async function findVoteByCommentAndUserId(
 
 /** UPDATE */
 
-export async function updateVoteTypeById(id: number, newVoteType: VoteType) {
-  await db
+export async function updateVoteTypeById(
+  id: number,
+  newVoteType: VoteType,
+  trx: Transaction<Database>
+) {
+  await (trx ? trx : db)
     .updateTable("vote")
     .set({
       voteType: newVoteType,
@@ -64,9 +79,10 @@ export async function updateVoteTypeById(id: number, newVoteType: VoteType) {
 export async function updateVoteTypeByCommentAndUserId(
   commentId: number,
   userId: number,
-  newVoteType: VoteType
+  newVoteType: VoteType,
+  trx: Transaction<Database>
 ) {
-  return await db
+  return await (trx ? trx : db)
     .updateTable("vote")
     .set({
       voteType: newVoteType,
@@ -78,8 +94,8 @@ export async function updateVoteTypeByCommentAndUserId(
 
 /** DELETE */
 
-export async function deleteVoteById(id: number) {
-  return await db
+export async function deleteVoteById(id: number, trx: Transaction<Database>) {
+  return await (trx ? trx : db)
     .deleteFrom("vote")
     .where("id", "=", id)
     .returningAll()

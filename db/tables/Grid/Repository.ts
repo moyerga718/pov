@@ -1,10 +1,12 @@
+import { Transaction } from "kysely";
 import { db } from "../../dbConnection";
 import { Grid, GridUpdate, NewGrid } from "./Table";
+import { Database } from "../Database";
 
 /** CREATE */
 
-export async function createGrid(grid: NewGrid) {
-  return await db
+export async function createGrid(grid: NewGrid, trx: Transaction<Database>) {
+  return await (trx ? trx : db)
     .insertInto("grid")
     .values(grid)
     .returningAll()
@@ -13,16 +15,19 @@ export async function createGrid(grid: NewGrid) {
 
 /** READ */
 
-export async function findGridById(id: number) {
-  return await db
+export async function findGridById(id: number, trx: Transaction<Database>) {
+  return await (trx ? trx : db)
     .selectFrom("grid")
     .where("id", "=", id)
     .selectAll()
     .executeTakeFirst();
 }
 
-export async function findGrids(criteria: Partial<Grid>) {
-  let query = db.selectFrom("grid");
+export async function findGrids(
+  criteria: Partial<Grid>,
+  trx: Transaction<Database>
+) {
+  let query = (trx ? trx : db).selectFrom("grid");
 
   if (criteria.id) {
     query = query.where("id", "=", criteria.id);
@@ -51,8 +56,11 @@ export async function findGrids(criteria: Partial<Grid>) {
   return await query.selectAll().execute();
 }
 
-export async function findAllGridsForUser(userId: number) {
-  return await db
+export async function findAllGridsForUser(
+  userId: number,
+  trx: Transaction<Database>
+) {
+  return await (trx ? trx : db)
     .selectFrom("grid")
     .where("createdByUserId", "=", userId)
     .selectAll()
@@ -61,12 +69,23 @@ export async function findAllGridsForUser(userId: number) {
 
 /** UPDATE */
 
-export async function updateGrid(id: number, updateWith: GridUpdate) {
-  await db.updateTable("grid").set(updateWith).where("id", "=", id).execute();
+export async function updateGrid(
+  id: number,
+  updateWith: GridUpdate,
+  trx: Transaction<Database>
+) {
+  await (trx ? trx : db)
+    .updateTable("grid")
+    .set(updateWith)
+    .where("id", "=", id)
+    .execute();
 }
 
-export async function incrementGridPointCount(id: number) {
-  return await db
+export async function incrementGridPointCount(
+  id: number,
+  trx: Transaction<Database>
+) {
+  return await (trx ? trx : db)
     .updateTable("grid")
     .set((eb) => ({
       gridPointCount: eb("gridPointCount", "+", 1),
@@ -75,8 +94,11 @@ export async function incrementGridPointCount(id: number) {
     .execute();
 }
 
-export async function decrementGridPointCount(id: number) {
-  return await db
+export async function decrementGridPointCount(
+  id: number,
+  trx: Transaction<Database>
+) {
+  return await (trx ? trx : db)
     .updateTable("grid")
     .set((eb) => ({
       gridPointCount: eb("gridPointCount", "-", 1),
@@ -85,8 +107,11 @@ export async function decrementGridPointCount(id: number) {
     .execute();
 }
 
-export async function incrementGridCommentCount(id: number) {
-  return await db
+export async function incrementGridCommentCount(
+  id: number,
+  trx: Transaction<Database>
+) {
+  return await (trx ? trx : db)
     .updateTable("grid")
     .set((eb) => ({
       commentCount: eb("commentCount", "+", 1),
@@ -95,8 +120,11 @@ export async function incrementGridCommentCount(id: number) {
     .execute();
 }
 
-export async function decrementGridCommentCount(id: number) {
-  return await db
+export async function decrementGridCommentCount(
+  id: number,
+  trx: Transaction<Database>
+) {
+  return await (trx ? trx : db)
     .updateTable("grid")
     .set((eb) => ({
       commentCount: eb("commentCount", "-", 1),
@@ -107,8 +135,8 @@ export async function decrementGridCommentCount(id: number) {
 
 /** DELETE */
 
-export async function deleteGrid(id: number) {
-  return await db
+export async function deleteGrid(id: number, trx: Transaction<Database>) {
+  return await (trx ? trx : db)
     .deleteFrom("grid")
     .where("id", "=", id)
     .returningAll()

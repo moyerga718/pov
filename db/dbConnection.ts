@@ -5,11 +5,11 @@ import { CamelCasePlugin, Kysely, PostgresDialect } from "kysely";
 // TO DO: Add in logic for environment variables.
 const dialect = new PostgresDialect({
   pool: new Pool({
-    database: "pov_local_db",
-    host: "localhost",
-    user: "dev_user",
-    password: "dev_pass",
-    port: 5432,
+    database: process.env.DATABASE_NAME,
+    host: process.env.DATABASE_HOST,
+    user: process.env.DATABASE_USER,
+    password: process.env.DATABASE_PASSWORD,
+    port: parseInt(process.env.DATABASE_PORT || "5432"),
     max: 10,
   }),
 });
