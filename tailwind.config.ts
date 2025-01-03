@@ -4,6 +4,7 @@ export default {
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}", // Note the addition of the `app` directory.
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
@@ -13,11 +14,6 @@ export default {
         border: "var(--border)",
         text: "var(--text)",
       },
-      fontFamily: {
-        CutiveMono: ["Cutive Mono", "monospace"],
-      },
     },
   },
-  plugins: [],
-  darkMode: "class",
 } satisfies Config;

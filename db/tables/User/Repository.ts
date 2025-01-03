@@ -1,28 +1,37 @@
-import { db } from "../../dbConnection";
+import { randomUUID } from "crypto";
 import { UserUpdate, User, NewUser } from "./Table";
+import { Transaction } from "kysely";
+import { Database } from "../Database";
+import { db } from "../../dbConnection";
 
 /** CREATE */
 
-export async function createUser(person: NewUser) {
-  return await db
+export async function createUser(person: NewUser, trx: Transaction<Database>) {
+  return await (trx ? trx : db)
     .insertInto("user")
-    .values(person)
+    .values({
+      ...person,
+      uuid: randomUUID(),
+    })
     .returningAll()
     .executeTakeFirstOrThrow();
 }
 
 /** READ */
 
-export async function findUserById(id: number) {
-  return await db
+export async function findUserById(id: number, trx: Transaction<Database>) {
+  return await (trx ? trx : db)
     .selectFrom("user")
     .where("id", "=", id)
     .selectAll()
     .executeTakeFirst();
 }
 
-export async function findUsers(criteria: Partial<User>) {
-  let query = db.selectFrom("user");
+export async function findUsers(
+  criteria: Partial<User>,
+  trx: Transaction<Database>
+) {
+  let query = (trx ? trx : db).selectFrom("user");
 
   if (criteria.id) {
     query = query.where("id", "=", criteria.id);
@@ -39,28 +48,27 @@ export async function findUsers(criteria: Partial<User>) {
       criteria.lastName
     );
   }
-
-  if (criteria.createdAt) {
-    query = query.where("createdAt", "=", criteria.createdAt);
-  }
-
-  if (criteria.updatedAt) {
-    query = query.where("updatedAt", "=", criteria.updatedAt);
-  }
-
   return await query.selectAll().execute();
 }
 
 /** UPDATE */
 
-export async function updateUser(id: number, updateWith: UserUpdate) {
-  await db.updateTable("user").set(updateWith).where("id", "=", id).execute();
+export async function updateUser(
+  id: number,
+  updateWith: UserUpdate,
+  trx: Transaction<Database>
+) {
+  await (trx ? trx : db)
+    .updateTable("user")
+    .set(updateWith)
+    .where("id", "=", id)
+    .execute();
 }
 
 /** DELETE */
 
-export async function deleteUser(id: number) {
-  return await db
+export async function deleteUser(id: number, trx: Transaction<Database>) {
+  return await (trx ? trx : db)
     .deleteFrom("user")
     .where("id", "=", id)
     .returningAll()

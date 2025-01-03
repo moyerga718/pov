@@ -7,6 +7,13 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=development
+      - DATABASE_NAME=pov_local_db
+      - DATABASE_HOST=db
+      - DATABASE_USER=dev_user
+      - DATABASE_PASSWORD=dev_pass
+      - DATABASE_PORT=5432
+    depends_on:
+      - db
     develop:
       watch:
         - action: sync
@@ -17,6 +24,21 @@ services:
         - action: sync
           path: ./components
           target: /app/components
+          ignore:
+            - node_modules/
+        - action: sync
+          path: ./db
+          target: /app/db
+          ignore:
+            - node_modules/
+        - action: sync
+          path: ./middleware
+          target: /app/middleware
+          ignore:
+            - node_modules/
+        - action: sync
+          path: ./style
+          target: /app/style
           ignore:
             - node_modules/
         - action: rebuild

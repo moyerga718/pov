@@ -15,9 +15,11 @@ export interface UserTable {
   id: Generated<number>;
   username: string;
   firstName: string;
-  lastName: string | null;
-  createdAt: ColumnType<Date, string | undefined, never>;
-  updatedAt: ColumnType<Date, never, string | undefined>;
+  lastName: string;
+  email: string;
+  uuid: Generated<string>;
+  createdAt: ColumnType<string, string | undefined, never>;
+  updatedAt: ColumnType<string, never, string | undefined>;
 }
 
 export type User = Selectable<UserTable>;
