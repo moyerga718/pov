@@ -3,7 +3,6 @@
 import { redirect, RedirectType } from "next/navigation";
 
 import { createUser } from "@/db/tables/User/Repository";
-import { NewUserSchema } from "@/db/tables/User/Validation";
 import { runInTransaction } from "@/db/transactions/runInTransaction";
 import {
   createUserSession,
@@ -12,6 +11,7 @@ import {
 } from "@/db/tables/UserSession/Repository";
 
 import { FormState } from "@/components/forms/types/FormState";
+import { RegisterSchema } from "../schemas/RegisterSchema";
 
 export async function Register(
   state: FormState,
@@ -19,7 +19,7 @@ export async function Register(
 ): Promise<FormState> {
   "use server";
   const data = Object.fromEntries(payload);
-  const result = NewUserSchema.safeParse(data);
+  const result = RegisterSchema.safeParse(data);
 
   if (!result.success) {
     return {

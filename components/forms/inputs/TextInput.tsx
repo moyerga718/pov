@@ -16,6 +16,9 @@ interface TextInputProps<TFormValues extends FieldValues> {
   fieldError?: FieldError;
 }
 
+/**
+ * Reusable text input to use with React Hook Forms.
+ */
 export default function TextInput<TFormValues extends FieldValues>({
   fieldName,
   labelName,
@@ -25,6 +28,7 @@ export default function TextInput<TFormValues extends FieldValues>({
   registerOptions,
   fieldError,
 }: TextInputProps<TFormValues>) {
+  // creates a label name from the field name. Captalizes and adds spaces.
   const defaultLabelName = fieldName
     .toString()
     .replace(/([A-Z])/g, " $1")

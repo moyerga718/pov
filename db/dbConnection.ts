@@ -2,7 +2,10 @@ import { Database } from "./tables/Database"; // this is the Database interface 
 import { Pool } from "pg";
 import { CamelCasePlugin, Kysely, PostgresDialect } from "kysely";
 
-// TO DO: Add in logic for environment variables.
+/**
+ * This is all straight from Kysely docs for how to set up Kysely w/ a postgres db.
+ *
+ */
 const dialect = new PostgresDialect({
   pool: new Pool({
     database: process.env.DATABASE_NAME,
