@@ -15,7 +15,8 @@ import { Database } from "../Database";
 /**
  * Okay so I don't know if all of this should live here, but this is all my session management code.
  * Its kind of CRUD-ey? I can move it out ifn i need to.
- *
+ * Most of this logic is from the lucia documentation for how to integrate session-based auth into a nextjs project.
+ * https://lucia-auth.com/sessions/basic-api/postgresql
  */
 
 export function generateSessionToken(): string {

@@ -7,17 +7,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 import { FormType } from "../types/FormType";
-import { Register } from "../actions";
+import { RegisterSchema } from "../schemas/RegisterSchema";
+import { Register } from "../actions/Register";
 
 import SubmitButton from "@/components/forms/buttons/SubmitButton";
 import TextInput from "@/components/forms/inputs/TextInput";
 import ErrorMessages from "@/components/forms/errors/ErrorMessages";
-import { NewUserSchema } from "@/db/tables/User/Validation";
 
 interface RegisterFormProps {
   setCurrentFormType: (formType: FormType) => void;
 }
-type RegisterFormFields = z.output<typeof NewUserSchema>;
+type RegisterFormFields = z.output<typeof RegisterSchema>;
 
 export default function RegisterForm({
   setCurrentFormType,
@@ -32,7 +32,7 @@ export default function RegisterForm({
     formState: { errors },
   } = useForm<RegisterFormFields>({
     mode: "onBlur",
-    resolver: zodResolver(NewUserSchema),
+    resolver: zodResolver(RegisterSchema),
   });
 
   const onSubmit: SubmitHandler<RegisterFormFields> = (

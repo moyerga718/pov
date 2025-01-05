@@ -9,6 +9,7 @@ export async function authMiddleware(
   request: NextRequest
 ): Promise<NextResponse> {
   /**
+   * TBH i don't think i need this unless i start actually using the api instead of server actions. So. Ima get rid of it.
    * FROM LUCIA DOCS:
    * Since we can't extend set cookies insides server components due to a limitation with React, we recommend continuously extending the cookie expiration inside middleware.
    * However, this comes with its own issue. We can't detect if a new cookie was set inside server actions or route handlers from middleware.
