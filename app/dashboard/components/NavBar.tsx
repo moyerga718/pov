@@ -6,7 +6,7 @@ export default function NavBar() {
       <h1>pov</h1>
       <input placeholder="search..."></input>
       {/* <UserAvatar /> */}
-      <p>log in shit here</p>
+      <p>log in here</p>
     </div>
   );
 }

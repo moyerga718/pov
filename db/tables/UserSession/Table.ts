@@ -1,9 +1,7 @@
 import { Insertable, Selectable, Updateable } from "kysely";
 
 /**
- * User session table for auth....
- * I guess im making my own auth???
- * This will probably need to be beefed up once I add auth in?? I'ma let it chill now tho.
+ * User session table for authentication
  */
 export interface UserSessionTable {
   id: string;

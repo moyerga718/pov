@@ -1,7 +1,7 @@
 import { Kysely, sql } from "kysely";
 
 /**
- * YYEAH IM MAKING A VOTE TABLE, GET THE FUCK OVER IT
+ * Adds vote table.
  * @param db
  */
 

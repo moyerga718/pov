@@ -9,7 +9,7 @@ import { VoteType } from "./Constants/VoteType";
 
 /**
  * Vote table.
- * Users can upvote or downvote comments. Thats pretty much it, this keeps track of that
+ * Users can upvote or downvote comments.
  */
 export interface VoteTable {
   id: Generated<number>;
