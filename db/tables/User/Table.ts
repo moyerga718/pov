@@ -8,8 +8,7 @@ import {
 
 /**
  * User table.
- * It stores the users, idiot.
- * This will probably need to be beefed up once I add auth in?? I'ma let it chill now tho.
+ * Stores basic user information.
  */
 export interface UserTable {
   id: Generated<number>;

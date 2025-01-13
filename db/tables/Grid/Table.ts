@@ -9,7 +9,6 @@ import {
 /**
  * Grid table.
  * A grid is an alignment chart that a user can make and other users can plot points on.
- * This will probably end up getting BEEFED up.
  */
 export interface GridTable {
   id: Generated<number>;

@@ -1,7 +1,7 @@
 import { Kysely, sql } from "kysely";
 
 /**
- * WHY THE FUCK ARE YOU MAKING THIS MIGRATION. PUT A DESCRIPTION HERE.
+ * Migration template
  * @param db
  */
 
