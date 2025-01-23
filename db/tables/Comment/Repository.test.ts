@@ -55,7 +55,7 @@ describe("CommentRepository", async () => {
       expect(testContext.user).toBeDefined();
       expect(testContext.grid).toBeDefined();
       if (!testContext.user || !testContext.grid) {
-        console.error("no test user or grid, BITCH");
+        console.error("no test user or grid");
         return;
       }
 
@@ -84,7 +84,7 @@ describe("CommentRepository", async () => {
     await runInTransaction(async (trx) => {
       expect(testContext.comment).toBeDefined();
       if (!testContext.comment) {
-        console.error("no comment bitch");
+        console.error("no comment");
         return;
       }
       const foundComment = await CommentRepository.findCommentById(
@@ -232,7 +232,7 @@ describe("CommentRepository", async () => {
   it("should delete comment", async () => {
     await runInTransaction(async (trx) => {
       if (!testContext.comment) {
-        console.error("THERES NO COMMENT GET THE FUCK OVER IT");
+        console.error("No comment found.");
         return;
       }
       expect(testContext.comment).toBeDefined();

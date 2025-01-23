@@ -76,7 +76,7 @@ describe("VoteRepository", async () => {
       expect(testContext.user2).toBeDefined();
       expect(testContext.grid).toBeDefined();
       if (!testContext.user1 || !testContext.user2 || !testContext.grid) {
-        console.error("no test user or grid, BITCH");
+        console.error("no test user or grid");
         return;
       }
 
@@ -172,7 +172,7 @@ describe("VoteRepository", async () => {
     await runInTransaction(async (trx) => {
       expect(testContext.upvote).toBeDefined();
       if (!testContext.upvote) {
-        console.error("dont have the upvote bitch");
+        console.error("dont have the upvote");
         return;
       }
       const foundVote = await VoteRepository.findVoteById(
@@ -187,7 +187,7 @@ describe("VoteRepository", async () => {
     await runInTransaction(async (trx) => {
       expect(testContext.downvote).toBeDefined();
       if (!testContext.downvote) {
-        console.error("u dont have downvote bitch");
+        console.error("u dont have downvote");
         return;
       }
 
@@ -206,7 +206,7 @@ describe("VoteRepository", async () => {
     await runInTransaction(async (trx) => {
       expect(testContext.upvote).toBeDefined();
       if (!testContext.upvote) {
-        console.error("no UPVOTE bitch....?");
+        console.error("no upvote found");
         return;
       }
 
@@ -233,7 +233,7 @@ describe("VoteRepository", async () => {
     await runInTransaction(async (trx) => {
       expect(testContext.downvote).toBeDefined();
       if (!testContext.downvote) {
-        console.error("no downvote bitch....?");
+        console.error("no downvote");
         return;
       }
 
@@ -263,7 +263,7 @@ describe("VoteRepository", async () => {
       // downvote
       expect(testContext.downvote).toBeDefined();
       if (!testContext.downvote) {
-        console.error("no downvote bitch....?");
+        console.error("no downvote");
         return;
       }
       await VoteRepository.deleteVoteById(testContext.downvote.id, trx);
@@ -276,7 +276,7 @@ describe("VoteRepository", async () => {
       // upvote
       expect(testContext.upvote).toBeDefined();
       if (!testContext.upvote) {
-        console.error("no upvote bitch....?");
+        console.error("no upvote");
         return;
       }
       await VoteRepository.deleteVoteById(testContext.upvote.id, trx);
@@ -292,7 +292,7 @@ describe("VoteRepository", async () => {
     await runInTransaction(async (trx) => {
       // comment 1
       if (!testContext.comment1) {
-        console.error("THERES NO comment1 GET THE FUCK OVER IT");
+        console.error("No comment found");
         return;
       }
       expect(testContext.comment1).toBeDefined();
@@ -305,7 +305,7 @@ describe("VoteRepository", async () => {
 
       // comment 2
       if (!testContext.comment2) {
-        console.error("THERES NO COMMENT GET THE FUCK OVER IT");
+        console.error("No comment found.");
         return;
       }
       expect(testContext.comment2).toBeDefined();

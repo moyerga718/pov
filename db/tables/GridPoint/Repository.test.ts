@@ -60,7 +60,7 @@ describe("GridPointRepository", async () => {
       expect(testContext.user).toBeDefined();
       expect(testContext.grid).toBeDefined();
       if (!testContext.user || !testContext.grid) {
-        console.error("no test user or grid, BITCH");
+        console.error("no test user or grid");
         return;
       }
 
@@ -89,7 +89,7 @@ describe("GridPointRepository", async () => {
       expect(testContext.grid).toBeDefined();
       expect(testContext.comment).toBeDefined();
       if (!testContext.user || !testContext.grid || !testContext.comment) {
-        console.error("no test user or grid or comment, BITCH");
+        console.error("no test user or grid or comment");
         return;
       }
       const testGridPointInput = createRandomGridPoints(
@@ -125,7 +125,7 @@ describe("GridPointRepository", async () => {
     await runInTransaction(async (trx) => {
       expect(testContext.grid).toBeDefined();
       if (!testContext.grid) {
-        console.error("no grid bitch");
+        console.error("no grid");
         return;
       }
       const foundGridPoints =
@@ -169,7 +169,7 @@ describe("GridPointRepository", async () => {
   it("should delete comment", async () => {
     await runInTransaction(async (trx) => {
       if (!testContext.comment) {
-        console.error("THERES NO COMMENT GET THE FUCK OVER IT");
+        console.error("No comment found");
         return;
       }
       expect(testContext.comment).toBeDefined();
