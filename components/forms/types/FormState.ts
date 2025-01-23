@@ -5,4 +5,5 @@
 export type FormState = {
   message: string;
   fieldErrors?: string[];
+  success: boolean;
 };

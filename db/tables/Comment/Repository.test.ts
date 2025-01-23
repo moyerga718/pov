@@ -9,7 +9,7 @@ import * as GridRepository from "../Grid/Repository";
 import * as CommentRepository from "../Comment/Repository";
 import { runInTransaction } from "../../transactions/runInTransaction";
 
-describe("CommentRepository", () => {
+describe("CommentRepository", async () => {
   const testContext: {
     user: User | undefined;
     grid: Grid | undefined;
@@ -20,7 +20,7 @@ describe("CommentRepository", () => {
     comment: undefined,
   };
 
-  const testUserInput: NewUser = createRandomUser();
+  const testUserInput: NewUser = await createRandomUser();
 
   /** CREATE */
 

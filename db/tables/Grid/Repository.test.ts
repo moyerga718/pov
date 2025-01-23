@@ -2,11 +2,11 @@ import { createRandomUser } from "../User/Factory";
 import { createRandomGrid } from "./Factory";
 import * as UserRepository from "../User/Repository";
 import * as GridRepository from "./Repository";
-import { User } from "../User/Table";
+import { NewUser, User } from "../User/Table";
 import { Grid } from "./Table";
 import { runInTransaction } from "../../transactions/runInTransaction";
 
-describe("GridRepository", () => {
+describe("GridRepository", async () => {
   const testContext: {
     user: User | undefined;
     grid: Grid | undefined;
@@ -14,7 +14,7 @@ describe("GridRepository", () => {
     user: undefined,
     grid: undefined,
   };
-  const testUserInput = createRandomUser();
+  const testUserInput: NewUser = await createRandomUser();
 
   /** CREATE  */
   it("should create a user (to make a grid)", async () => {

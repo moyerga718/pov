@@ -2,6 +2,7 @@ import "../style/fonts";
 import "../style/globals.css";
 import { cutiveMono } from "../style/fonts";
 import type { Metadata } from "next";
+import { Providers } from "./providers";
 
 // Metadata Here
 export const metadata: Metadata = {
@@ -15,8 +16,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={`${cutiveMono.className} antialiased`}>{children}</body>
+    <html lang="en" className="dark">
+      <body className={`${cutiveMono.className} antialiased`}>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }

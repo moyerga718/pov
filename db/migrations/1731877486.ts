@@ -11,6 +11,7 @@ export async function up(db: Kysely<any>): Promise<void> {
     .createTable("user")
     .addColumn("id", "serial", (col) => col.primaryKey())
     .addColumn("username", "varchar", (col) => col.notNull().unique())
+    .addColumn("hash", "bytea", (col) => col.notNull())
     .addColumn("first_name", "varchar", (col) => col.notNull())
     .addColumn("last_name", "varchar", (col) => col.notNull())
     .addColumn("created_at", "timestamp", (col) =>
