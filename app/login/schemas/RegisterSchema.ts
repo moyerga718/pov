@@ -9,4 +9,5 @@ export const RegisterSchema = z.object({
   lastName: z.string().trim().min(3, "Last Name must be at least 3 characters"),
   email: z.string().trim().email("Invalid email address"),
   username: z.string().trim().min(3, "Username must be at least 3 characters"),
-}) satisfies ZodType<NewUser>;
+  password: z.string().trim().min(7, "Password must be at least 7 chracters"),
+});

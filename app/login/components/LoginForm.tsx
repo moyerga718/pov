@@ -1,49 +1,75 @@
 "use client";
 
-import { SubmitHandler, useForm } from "react-hook-form";
-import { FormType } from "../types/FormType";
+import { startTransition, useActionState } from "react";
 
-type Inputs = {
-  username: string;
-};
+import { SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import { z } from "zod";
+
+import { FormType } from "../types/FormType";
+import { LoginSchema } from "../schemas/LoginSchema";
+import { Login } from "../actions/Login";
+
+import ErrorMessages from "@/components/forms/errors/ErrorMessages";
+import TextInput from "@/components/forms/inputs/TextInput";
+import SubmitButton from "@/components/forms/buttons/SubmitButton";
 
 interface LoginFormProps {
   setCurrentFormType: (formType: FormType) => void;
 }
+type LoginFormFields = z.output<typeof LoginSchema>;
 
 export default function LoginForm({ setCurrentFormType }: LoginFormProps) {
+  const [state, formAction, pending] = useActionState(Login, {
+    message: "",
+    success: false,
+  });
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  } = useForm<LoginFormFields>({
+    mode: "onBlur",
+    resolver: zodResolver(LoginSchema),
+  });
+
+  const onSubmit: SubmitHandler<LoginFormFields> = (data: LoginFormFields) => {
+    startTransition(() => {
+      const formData = new FormData();
+      formData.append("username", data.username);
+      formData.append("password", data.password);
+      formAction(formData);
+    });
+  };
 
   return (
-    /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
     <form onSubmit={handleSubmit(onSubmit)}>
+      <ErrorMessages formState={state} />
+
       <div className="flex flex-col space-y-2">
-        <label>Username:</label>
-        <input
-          className="border"
+        <TextInput<LoginFormFields>
+          fieldName="username"
           placeholder="jdingle"
-          {...register("username", {
-            required: true,
-            maxLength: 20,
-            minLength: 1,
-          })}
+          registerFunction={register}
+          registerOptions={{ required: true, maxLength: 20, minLength: 3 }}
+          fieldError={errors.username}
         />
 
-        {/* errors will return when field validation fails  */}
-        {errors.username && (
-          <p className="text-red-500">This field is required</p>
-        )}
+        <TextInput<LoginFormFields>
+          fieldName="password"
+          placeholder="********"
+          registerFunction={register}
+          registerOptions={{ required: true, maxLength: 20, minLength: 7 }}
+          fieldError={errors.password}
+        />
 
         <div className="flex flex-row justify-between">
           <button onClick={() => setCurrentFormType(FormType.REGISTER)}>
             or... register
           </button>
-          <input type="submit" />
+          <SubmitButton pending={pending} />
         </div>
       </div>
     </form>

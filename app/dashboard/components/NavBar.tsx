@@ -1,12 +1,17 @@
-// import UserAvatar from "./UserAvatar/UserAvatar";
+"use server";
 
-export default function NavBar() {
+import { GetCurrentUser } from "../actions/GetCurrentUser";
+import UserAvatar from "./userAvatar/UserAvatar";
+
+export default async function NavBar() {
+  const currentUser = await GetCurrentUser();
+
   return (
-    <div className="flex border-2 p-2 w-100 justify-between">
+    <div className="flex border-b-2 p-2 w-100 justify-between">
       <h1>pov</h1>
       <input placeholder="search..."></input>
       {/* <UserAvatar /> */}
-      <p>log in shit here</p>
+      <UserAvatar currentUser={currentUser} />
     </div>
   );
 }

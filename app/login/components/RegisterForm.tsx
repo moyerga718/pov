@@ -24,6 +24,7 @@ export default function RegisterForm({
 }: RegisterFormProps) {
   const [state, formAction, pending] = useActionState(Register, {
     message: "",
+    success: false,
   });
 
   const {
@@ -44,6 +45,7 @@ export default function RegisterForm({
       formData.append("lastName", data.lastName);
       formData.append("email", data.email);
       formData.append("username", data.username);
+      formData.append("password", data.password);
       formAction(formData);
     });
   };
@@ -95,6 +97,18 @@ export default function RegisterForm({
             minLength: 1,
           }}
           fieldError={errors.email}
+        />
+
+        <TextInput<RegisterFormFields>
+          fieldName="password"
+          placeholder="*******"
+          registerFunction={register}
+          registerOptions={{
+            required: true,
+            maxLength: 20,
+            minLength: 7,
+          }}
+          fieldError={errors.password}
         />
 
         <div className="flex flex-row justify-between">

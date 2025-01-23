@@ -12,7 +12,7 @@ import { createRandomComments } from "../Comment/Factory";
 import { createRandomGridPoints } from "./Factory";
 import { runInTransaction } from "../../transactions/runInTransaction";
 
-describe("GridPointRepository", () => {
+describe("GridPointRepository", async () => {
   const testContext: {
     user: User | undefined;
     grid: Grid | undefined;
@@ -25,7 +25,7 @@ describe("GridPointRepository", () => {
     gridPoints: [],
   };
 
-  const testUserInput: NewUser = createRandomUser();
+  const testUserInput: NewUser = await createRandomUser();
 
   /** CREATE */
 

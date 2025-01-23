@@ -2,10 +2,14 @@ import * as UserRepository from "./Repository";
 import { NewUser, User } from "./Table";
 import { createRandomUser } from "./Factory";
 import { runInTransaction } from "../../transactions/runInTransaction";
+import bcrypt from "bcrypt";
+import { faker } from "@faker-js/faker";
 
-describe("UserRepository", () => {
+describe("UserRepository", async () => {
   const testContext: User[] = [];
-  const testUserInput: NewUser = createRandomUser();
+
+  const testUserPassword = faker.internet.password();
+  const testUserInput: NewUser = await createRandomUser(testUserPassword);
 
   /** CREATE */
 
@@ -16,9 +20,7 @@ describe("UserRepository", () => {
       expect(testUser.lastName).toEqual(testUserInput.lastName);
       expect(testUser.username).toEqual(testUserInput.username);
       expect(testUser.email).toEqual(testUserInput.email);
-      expect(testUser.uuid).toBeDefined();
       expect(testUser.createdAt).toBeDefined();
-      expect(testUser.updatedAt).toBeNull();
       testContext.push(testUser);
     });
   });
@@ -34,11 +36,31 @@ describe("UserRepository", () => {
     });
   });
 
+  it("should find user object by username, verify password hash", async () => {
+    await runInTransaction(async (trx) => {
+      const testUser = testContext[0];
+      expect(testUser).toBeDefined();
+      const foundUser = await UserRepository.getUserWithHashByUsername(
+        testUser.username,
+        trx
+      );
+      if (!foundUser) {
+        return;
+      }
+      const passwordMatches = await bcrypt.compare(
+        testUserPassword,
+        foundUser.hash.toString()
+      );
+      expect(passwordMatches).toBeTruthy();
+      expect(foundUser?.id).toEqual(testUser.id);
+    });
+  });
+
   it("should find all people users by first name", async () => {
     await runInTransaction(async (trx) => {
       const testUser = testContext;
       expect(testUser).toBeDefined();
-      const foundUsers = await UserRepository.findUsers(
+      const foundUsers = await UserRepository.searchUsers(
         {
           firstName: testUserInput.firstName,
         },

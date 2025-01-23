@@ -1,6 +1,7 @@
 "use server";
 
-import { redirect, RedirectType } from "next/navigation";
+import { redirect } from "next/navigation";
+import bcrypt from "bcrypt";
 
 import { createUser } from "@/db/tables/User/Repository";
 import { runInTransaction } from "@/db/transactions/runInTransaction";
@@ -12,6 +13,7 @@ import {
 
 import { FormState } from "@/components/forms/types/FormState";
 import { RegisterSchema } from "../schemas/RegisterSchema";
+import { NewUser } from "@/db/tables/User/Table";
 
 export async function Register(
   state: FormState,
@@ -19,18 +21,28 @@ export async function Register(
 ): Promise<FormState> {
   "use server";
   const data = Object.fromEntries(payload);
-  const result = RegisterSchema.safeParse(data);
+  const parsed = RegisterSchema.safeParse(data);
 
-  if (!result.success) {
+  if (!parsed.success) {
     return {
       message: "Invalid user input",
-      fieldErrors: result.error.issues.map((issue) => issue.message),
+      fieldErrors: parsed.error.issues.map((issue) => issue.message),
+      success: false,
     };
   }
 
   try {
     await runInTransaction(async (trx) => {
-      const user = await createUser(result.data, trx);
+      // encrypt password
+      const salt = await bcrypt.genSalt();
+      const hash = await bcrypt.hash(parsed.data.password, salt);
+
+      const { password, ...dbUserData } = parsed.data;
+      const newUser: NewUser = {
+        ...dbUserData,
+        hash: Buffer.from(hash),
+      };
+      const user = await createUser(newUser, trx);
       const token = generateSessionToken();
       const userSession = await createUserSession(token, user.id, trx);
       await setSessionTokenCookie(token, userSession.expiresAt);
@@ -43,19 +55,18 @@ export async function Register(
   } catch (error: any) {
     // this is the error code for a violating a uniqueness constraint in postgres. expand this error section to handle other unexpected errors as they come up.
     if (error.code === "23505") {
-      // Extract the constraint name from the error detail
-      const constraintMatch = error.detail?.match(/Key \((.*?)\)=/);
-      const field = constraintMatch?.[1];
-
       return {
         message: "Registration failed",
-        fieldErrors: [`This ${field} is already taken`],
+        fieldErrors: [`Username or email is already taken`],
+        success: false,
       };
     }
 
     return {
       message: "Registration failed. Please try again.",
+      success: false,
     };
   }
-  redirect("/dashboard", RedirectType.replace);
+
+  redirect("/dashboard");
 }

@@ -12,7 +12,7 @@ import { createRandomComments } from "../Comment/Factory";
 import { VoteType } from "./Constants/VoteType";
 import { runInTransaction } from "../../transactions/runInTransaction";
 
-describe("VoteRepository", () => {
+describe("VoteRepository", async () => {
   const testContext: {
     user1: User | undefined;
     user2: User | undefined;
@@ -31,8 +31,8 @@ describe("VoteRepository", () => {
     downvote: undefined,
   };
 
-  const testUser1Input: NewUser = createRandomUser();
-  const testUser2Input: NewUser = createRandomUser();
+  const testUser1Input: NewUser = await createRandomUser();
+  const testUser2Input: NewUser = await createRandomUser();
 
   /** CREATE  */
 
